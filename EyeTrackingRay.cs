@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(LineRenderer))]
 public class EyeTrackingRay : MonoBehaviour
@@ -17,7 +17,7 @@ public class EyeTrackingRay : MonoBehaviour
     private Color rayColorDefaultState = Color.yellow;
 
     [SerializeField]
-    private Color rayColorHoveState = Color.red;
+    private Color rayColorHoverState = Color.red;
 
     private LineRenderer lineRenderer;
 
@@ -36,8 +36,8 @@ public class EyeTrackingRay : MonoBehaviour
         lineRenderer.startWidth = rayWidth;
         lineRenderer.endWidth = rayWidth;
         lineRenderer.startColor = rayColorDefaultState;
-        lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, new Vector3(transform.position.x, transform.position.y, transform.position.z + rayDistance));
+        lineRenderer.SetPosition(0, Vector3.zero);
+        lineRenderer.SetPosition(1, Vector3.forward * rayDistance);
     }
 
     void FixedUpdate()
@@ -45,13 +45,16 @@ public class EyeTrackingRay : MonoBehaviour
         RaycastHit hit;
         Vector3 rayCastDirection = transform.TransformDirection(Vector3.forward) * rayDistance;
 
-        if (Physics.Raycast(transform.position, rayCastDirection, out hit, Mathf.Infinity, LayersToInclude))
+        if (Physics.Raycast(transform.position, rayCastDirection, out hit, rayDistance, LayersToInclude))
         {
             UnSelect();
-            lineRenderer.startColor = rayColorHoveState;
-            var EyeInteractable = hit.transform.GetComponent<EyeInteractable>();
-            eyeInteractables.Add(EyeInteractable);
-            EyeInteractable.IsHovered = true;
+            lineRenderer.startColor = rayColorHoverState;
+            var eyeInteractable = hit.transform.GetComponent<EyeInteractable>();
+            if (eyeInteractable != null)
+            {
+                eyeInteractables.Add(eyeInteractable);
+                eyeInteractable.IsHovered = true;
+            }
         }
         else
         {
@@ -72,3 +75,5 @@ public class EyeTrackingRay : MonoBehaviour
         }
     }
 }
+
+
