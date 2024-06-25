@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.Events; // Added namespace for UnityEvent
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
@@ -16,11 +16,13 @@ public class EyeInteractable : MonoBehaviour
     [SerializeField]
     private Material OnHoverInactiveMaterial;
 
-    private MeshRenderer meshRenderer; // Added MeshRenderer
+    private MeshRenderer meshRenderer;
 
-    void Start() => meshRenderer = GetComponent<MeshRenderer>();
+    void Start()
+    {
+        meshRenderer = GetComponent<MeshRenderer>();
+    }
 
-    // Update is called once per frame
     void Update()
     {
         if (IsHovered)
