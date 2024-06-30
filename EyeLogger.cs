@@ -34,7 +34,7 @@ public class EyeLogger : MonoBehaviour
             {
                 FileStream fileStream = new FileStream(logFilePath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
                 logger = new StreamWriter(fileStream);
-                logger.WriteLine("Time,LeftEyeX,LeftEyeY,RightEyeX,RightEyeY");
+                logger.WriteLine("Time,LeftEyeX,LeftEyeY,LeftEyeZ,RightEyeX,RightEyeY,RightEyeZ");
                 InvokeRepeating("LogEyePosition", 0f, 0.1f);
                 break;
             }
@@ -78,7 +78,7 @@ public class EyeLogger : MonoBehaviour
                         eyeGazesState.EyeGazes[1].Pose.Position.z
                     );
 
-                    logger.WriteLine($"{Time.time},{leftEyePosition.x},{leftEyePosition.y},{rightEyePosition.x},{rightEyePosition.y}");
+                    logger.WriteLine($"{Time.time},{leftEyePosition.x},{leftEyePosition.y},{leftEyePosition.z},{rightEyePosition.x},{rightEyePosition.y},{rightEyePosition.z}");
                 }
                 else
                 {
